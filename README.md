@@ -58,3 +58,25 @@ target_link_libraries(template_node ${OpenCV_LIBS} ${catkin_LIBRARIES}  )
 #### Launch/cone_detector.launch
 This package creates ros subscribers that subscribe to `~image_raw` to obtain images from a camera feed.  The launch file shows how to remap `~image_raw` to `/camera/rgb/image_rect_color`.  Modify this file to subscribe to a different image feed.
 
+
+### Source Files Explanations
+
+#### echo.py and echo.cpp
+Both echo programs subscribe to our image topic and publish the image they recieved.  Before publishing the image message they convert the message to opencv type using cv_bridge.
+
+In python:
+```python
+#convert sensor_msgs.msg/Image.msg  to opencv
+self.bridge.imgmsg_to_cv2(image_msg)
+
+#convert opencv imager to sensor_msgs.msg/Image.msg:
+self.bridge.cv2_to_imgmsg(image_cv, "bgr8")
+```
+
+In cpp:
+```
+```
+
+
+
+
