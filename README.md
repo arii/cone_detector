@@ -64,7 +64,7 @@ This package creates ros subscribers that subscribe to `~image_raw` to obtain im
 
 ### Source Files Explanations
 
-#### echo.py and echo.cpp
+#### echo.py and echo.cpp  (CV_BRIDGE Examples)
 Both echo programs subscribe to our image topic and publish the image they recieved.  Before publishing the image message they convert the message to opencv type using cv_bridge.
 
 In python:
