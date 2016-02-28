@@ -35,11 +35,14 @@ You should see a lot of printouts like this:
 * CMakeLists.txt
 * launch/
     * cone_detector.launch
+    * ...
 * src/
     * blob.png
     * image.png
     * coney.py
     * edge.py
+    * echo.py
+    * echo.cpp
     * MatchTemplate_Demo.cpp
 
 #### CMakeLists
@@ -69,12 +72,19 @@ In python:
 #convert sensor_msgs.msg/Image.msg  to opencv
 self.bridge.imgmsg_to_cv2(image_msg)
 
-#convert opencv imager to sensor_msgs.msg/Image.msg:
+#convert opencv image to sensor_msgs.msg/Image.msg:
 self.bridge.cv2_to_imgmsg(image_cv, "bgr8")
 ```
 
 In cpp:
 ```
+// convert sensor_msgs.msg/Image.msg to opencv Mat
+image = cv_bridge::toCvCopy(msg, "bgr8")->image;
+
+// convert Mat to sensor_mgs.msg/Image.msg
+ msg = cv_bridge::CvImage(
+            std_msgs::Header(), "bgr8", image).toImageMsg();
+
 ```
 
 
