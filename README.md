@@ -8,7 +8,12 @@ Video of using stuff
 
 ### Verify Installation Requirements 
 To use this software you need ros-indigo, OpenCV 2.4.8, and python.  
-''' ls /usr/share/OpenCV/OpenCVModules-release.cmake
-''' python 
-''' >>> import cv2
+```
+ls /usr/share/OpenCV/OpenCVModules-release.cmake
+
+python 
+ >>> import cv2
+
+```
+
 
