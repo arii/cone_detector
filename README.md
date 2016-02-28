@@ -46,7 +46,7 @@ You should see a lot of printouts like this:
 
 `CMakeLists.txt` finds and links the OpenCV libraries and ros packages.  If you create more .cpp files you need to declare a c++ executable and add dependencies to it. 
 
-Add the bottom of CMakeLists.txt we added the following to make `template_node':
+Add the bottom of CMakeLists.txt we added the following to make `template_node`:
 ```
 add_dependencies(template_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
@@ -56,4 +56,5 @@ target_link_libraries(template_node ${OpenCV_LIBS} ${catkin_LIBRARIES}  )
 ```
 
 #### Launch/cone_detector.launch
+This package creates ros subscribers that subscribe to `~image_raw` to obtain images from a camera feed.  The launch file shows how to remap `~image_raw` to `/camera/rgb/image_rect_color`.  Modify this file to subscribe to a different image feed.
 
