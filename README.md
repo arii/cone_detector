@@ -15,5 +15,8 @@ python
  >>> import cv2
 
 ```
+Move the code directory into your `catkin_ws/src` and call `catkin_make` 
+
+### Getting Started: OpenCV Bridge
 
 
