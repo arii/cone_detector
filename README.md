@@ -25,7 +25,14 @@ You should see a lot of printouts like this:
 ```
 * Compile the package. Move the code directory into your `catkin_ws/src` and call `catkin_make` 
 
+** relevant ros package: roscpp, rospy, std_msgs, image_transport, cv_bridge, sensor_msgs, geometry_msgs
 
-### Getting Started: OpenCV Bridge
+
+### Files in Obj_Detector Repository:
+
+* package.xml
+* CMakeLists.txt
+* launch
+* src
 
 
