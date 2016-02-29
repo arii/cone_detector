@@ -99,7 +99,8 @@ image = cv_bridge::toCvCopy(msg, "bgr8")->image;
 
 ##### Visualization:
 You can use rqt to visualize the echo image stream. 
-``` rqt_image_view
+``` 
+rqt_image_view
 ```
 Select the topic `/echo_image` or `/echo/echo_image` for cpp and python, respectively.
 
@@ -124,7 +125,8 @@ As you'll see many vision algorithms have different qualities.  Template matchin
 
 ##### Visualization:
 You can use rqt to visualize the detected cone.
-``` rqt_image_view
+```
+rqt_image_view
 ```
 Select the topic `/cone_detector/cone_detection`.
 
