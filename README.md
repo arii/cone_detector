@@ -37,13 +37,17 @@ You should see a lot of printouts like this:
     * cone_detector.launch
     * ...
 * src/
-    * blob.png
-    * image.png
+
     * echo.py
     * echo.cpp
     * image_matching.py
     * morphology_object_tracking.cpp
     * contour.py
+    
+    * blob.png
+    * image.png
+
+
 
 #### CMakeLists
 
