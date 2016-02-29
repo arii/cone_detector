@@ -147,7 +147,7 @@ This code will track the cone and update its location over time.  Three opencv w
 Running the code should automatically display three cv windows.
 
 ---
-#### contour.py (Contour image detection in python)A
+#### contour.py (Contour image detection in python)
 
 ##### Usage:
 ```
