@@ -39,23 +39,21 @@ You should see a lot of printouts like this:
 * src/
     * blob.png
     * image.png
-    * edge.py
     * echo.py
     * echo.cpp
-    * MatchTemplate_Demo.cpp
+    * image_matching.py
     * morphology_object_tracking.cpp
+    * contour.py
 
 #### CMakeLists
 
 `CMakeLists.txt` finds and links the OpenCV libraries and ros packages.  If you create more .cpp files you need to declare a c++ executable and add dependencies to it. 
 
-Add the bottom of CMakeLists.txt we added the following to make `template_node`:
+Add the bottom of CMakeLists.txt we added the following to make `echo`:
 ```
-add_dependencies(template_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(template_node ${OpenCV_LIBS} ${catkin_LIBRARIES}  )
-#)
-
+add_executable(echo src/echo.cpp)
+add_dependencies(echo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(echo ${OpenCV_LIBS} ${catkin_LIBRARIES}  )
 ```
 
 #### Launch/cone_detector.launch
@@ -65,6 +63,13 @@ This package creates ros subscribers that subscribe to `~image_raw` to obtain im
 ### Source Files Explanations
 
 #### echo.py and echo.cpp  (CV_BRIDGE Examples)
+##### Usage:
+```
+roslaunch cone_detector echo_py.launch 
+roslaunch cone_detector echo_cpp.launch 
+
+```
+##### About
 Both echo programs subscribe to our image topic and publish the image they recieved.  Before publishing the image message they convert the message to opencv type using cv_bridge.
 
 In python:
