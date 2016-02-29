@@ -87,6 +87,14 @@ image = cv_bridge::toCvCopy(msg, "bgr8")->image;
 
 ```
 
+#### image_matching.py (Template Matching Example)
+This example uses a template image and tries to find it inside the camera feed.
+To run this program, you must include the template image location:
+
+```
+roslaunch cone_detector cone_detector.launch image:=/home/ari/catkin_ws/src/cone/cone_detector/src/blob.png 
+```
+
 
 
 
