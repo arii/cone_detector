@@ -88,13 +88,20 @@ image = cv_bridge::toCvCopy(msg, "bgr8")->image;
 ```
 
 #### image_matching.py (Template Matching Example)
-This example uses a template image and tries to find it inside the camera feed.
+This program uses a template image and tries to find it inside the camera feed.
 To run this program, you must include the template image location:
 
 ```
 roslaunch cone_detector cone_detector.launch image:=/home/ari/catkin_ws/src/cone/cone_detector/src/blob.png 
 ```
 
+This program defines two classes: `ConeDetector` and TemplateMatcher`.
+
+* ConeDetector should look very similiar to Echo.py. It has an additional ros publisher for the `cone_ibvs` topic.  This publishes a signal from [-1,1] of the bcones relative location and was used for the TA's solution of IBVS parking at a cone.
+
+* TemplateMatcher uses OpenCV's `matchTemplate()` function to compare the template image to the raw image frame.   You can read about it more on their website here: http://docs.opencv.org/master/d4/dc6/tutorial_py_template_matching.html#gsc.tab=0
+
+As you'll see many vision algorithms have different qualities.  Template matching is very susceptible to scale and rotation error.  An upright orange cone is symmetrical and will not have rotation error, however the scale will change as the robot moves toward and away the cone. We have implemented pyramid matching functionality that resizes the template image for comparison.
 
 
 
