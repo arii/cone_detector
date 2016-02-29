@@ -94,6 +94,13 @@ image = cv_bridge::toCvCopy(msg, "bgr8")->image;
 
 ```
 
+##### Visualization:
+You can use rqt to visualize the echo image stream. 
+``` rqt_image_view
+```
+Select the topic `/echo_image` or `/echo/echo_image` for cpp and python, respectively.
+
+
 #### image_matching.py (Template Matching Example in Python)
 ##### Usage:
 This program uses a template image and tries to find it inside the camera feed.
@@ -111,6 +118,12 @@ This program defines two classes: `ConeDetector` and `TemplateMatcher`.
 
 As you'll see many vision algorithms have different qualities.  Template matching is very susceptible to scale and rotation error.  An upright orange cone is symmetrical and will not have rotation error, however the scale will change as the robot moves toward and away the cone. We have implemented pyramid matching functionality that resizes the template image for comparison.
 
+##### Visualization:
+You can use rqt to visualize the detected cone.
+``` rqt_image_view
+```
+Select the topic `/cone_detector/cone_detection`.
+
 
 #### morphology_object_tracking.cpp  (color segementation in cpp)
 
@@ -123,7 +136,8 @@ roslaunch cone_detector morphology_object_tracking.launch
 This code was adapted from here: http://opencv-srf.blogspot.com/2010/09/object-detection-using-color-seperation.html .
 
 This code will track the cone and update its location over time.  Three opencv windows are created: control, original, and thresholded image.  In control you can change the hue, value, and saturation thresholds we are using to detect the orange cone.  The original window will display the original image with a line tracing its location over time. Lastly, threshold should display a mostly black window with the orange cone in white. If you cannot see the cone you can modify the threshold values.
-
+##### Visualization:
+Running the code should automatically display three cv windows.
 
 #### contour.py (Contour image detection in python)A
 
@@ -143,4 +157,5 @@ Note that the image was first converted into HSV colorspace. The color orange ha
 This program plots a box around the largest contour within our color specified thresholds.
 
 
-
+##### Visualization:
+Running the code should automatically display one cv window. 
