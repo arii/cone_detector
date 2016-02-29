@@ -43,7 +43,6 @@ You should see a lot of printouts like this:
     * image_matching.py
     * morphology_object_tracking.cpp
     * contour.py
-    
     * blob.png
     * image.png
 
