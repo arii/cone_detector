@@ -69,7 +69,6 @@ roslaunch cone_detector echo_py.launch
 roslaunch cone_detector echo_cpp.launch 
 
 ```
-##### About
 Both echo programs subscribe to our image topic and publish the image they recieved.  Before publishing the image message they convert the message to opencv type using cv_bridge.
 
 In python:
@@ -93,6 +92,7 @@ image = cv_bridge::toCvCopy(msg, "bgr8")->image;
 ```
 
 #### image_matching.py (Template Matching Example in Python)
+##### Usage:
 This program uses a template image and tries to find it inside the camera feed.
 To run this program, you must include the template image location:
 
@@ -110,12 +110,25 @@ As you'll see many vision algorithms have different qualities.  Template matchin
 
 
 #### morphology_object_tracking.cpp  (color segementation in cpp)
+
+##### Usage:
+```
+roslaunch cone_detector morphology_object_tracking.launch 
+```
+
+
 This code was adapted from here: http://opencv-srf.blogspot.com/2010/09/object-detection-using-color-seperation.html .
 
 This code will track the cone and update its location over time.  Three opencv windows are created: control, original, and thresholded image.  In control you can change the hue, value, and saturation thresholds we are using to detect the orange cone.  The original window will display the original image with a line tracing its location over time. Lastly, threshold should display a mostly black window with the orange cone in white. If you cannot see the cone you can modify the threshold values.
 
 
-#### contour.py (Contour image detection in python)
+#### contour.py (Contour image detection in python)A
+
+##### Usage:
+```
+python contour.py image.png
+```
+
 countour.py is a simple example that does not integrate with ROS.  It simply shows the opencv functionality for finding contours. It detects the contours in the image that are with in the color min and max thresholds:
 ```
 COLOR_MIN = np.array([0, 80, 80],np.uint8)
