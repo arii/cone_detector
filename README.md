@@ -48,6 +48,8 @@ You should see a lot of printouts like this:
 
 
 
+---
+
 #### CMakeLists
 
 `CMakeLists.txt` finds and links the OpenCV libraries and ros packages.  If you create more .cpp files you need to declare a c++ executable and add dependencies to it. 
@@ -63,6 +65,7 @@ target_link_libraries(echo ${OpenCV_LIBS} ${catkin_LIBRARIES}  )
 This package creates ros subscribers that subscribe to `~image_raw` to obtain images from a camera feed.  The launch file shows how to remap `~image_raw` to `/camera/rgb/image_rect_color`.  Modify this file to subscribe to a different image feed.
 
 
+---
 ### Source Files Explanations
 
 #### echo.py and echo.cpp  (CV_BRIDGE Examples)
@@ -101,6 +104,7 @@ You can use rqt to visualize the echo image stream.
 Select the topic `/echo_image` or `/echo/echo_image` for cpp and python, respectively.
 
 
+---
 #### image_matching.py (Template Matching Example in Python)
 ##### Usage:
 This program uses a template image and tries to find it inside the camera feed.
@@ -125,6 +129,7 @@ You can use rqt to visualize the detected cone.
 Select the topic `/cone_detector/cone_detection`.
 
 
+---
 #### morphology_object_tracking.cpp  (color segementation in cpp)
 
 ##### Usage:
@@ -139,6 +144,7 @@ This code will track the cone and update its location over time.  Three opencv w
 ##### Visualization:
 Running the code should automatically display three cv windows.
 
+---
 #### contour.py (Contour image detection in python)A
 
 ##### Usage:
