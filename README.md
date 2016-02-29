@@ -33,6 +33,7 @@ You should see a lot of printouts like this:
 
 * package.xml
 * CMakeLists.txt
+* example.bag
 * launch/
     * cone_detector.launch
     * ...
@@ -49,6 +50,11 @@ You should see a lot of printouts like this:
 
 
 ---
+#### example.bag
+A very tiny bag file that shows an orange cone.  you can test all of the code with this bag file and the .png images in the src directory.
+```
+rosbag play example.bag -a
+```
 
 #### CMakeLists
 
