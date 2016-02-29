@@ -13,22 +13,248 @@
     <section class="page-header">
       <h1 class="project-name">Object Detector with OpenCV and ROS</h1>
       <h2 class="project-tagline">ROS + OpenCV 2.4.8 integration.  Examples of object detection using  template matching, countour finding, and morphology with rospy and roscpp</h2>
-      <a href="https://github.com/arii/obj_detector" class="btn">View on GitHub</a>
-      <a href="https://github.com/arii/obj_detector/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/arii/obj_detector/tarball/master" class="btn">Download .tar.gz</a>
+      <a href="https://github.com/arii/cone_detector" class="btn">View on GitHub</a>
+      <a href="https://github.com/arii/cone_detector/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/arii/cone_detector/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="detecting-an-object-with-opencv-and-ros" class="anchor" href="#detecting-an-object-with-opencv-and-ros" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Detecting an object with OpenCV and ROS</h3>
+      <h1>
+<a id="cone_detector" class="anchor" href="#cone_detector" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cone_detector</h1>
+
+<p>ROS + OpenCV 2.4.8 integration.  Examples of object detection using  template matching, countour finding, and morphology with rospy and roscpp</p>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="verify-installation-requirements" class="anchor" href="#verify-installation-requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Verify Installation Requirements</h3>
 
-<p>Feel free to email me at <a href="mailto:aanders@csail.mit.edu">aanders@csail.mit.edu</a> if you have any questions or comments about this repository.</p>
+<p>To use this software you need ros-indigo, OpenCV 2.4.8, and python. </p>
+
+<ul>
+<li>Verify OpenCV release files exist for 2.4.8:</li>
+</ul>
+
+<pre><code>cat /usr/share/OpenCV/OpenCVModules-release.cmake | grep 2.4.8
+</code></pre>
+
+<p>You should see a lot of printouts like this:</p>
+
+<pre><code>  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/x86_64-linux-gnu/libopencv_core.so.2.4.8"
+  ...
+</code></pre>
+
+<ul>
+<li> Check the OpenCV2 python bindings exist:</li>
+</ul>
+
+<pre><code> &gt;&gt;&gt; import cv2
+
+</code></pre>
+
+<ul>
+<li>
+<p>Compile the package. Move the code directory into your <code>catkin_ws/src</code> and call <code>catkin_make</code> </p>
+
+<ul>
+<li> relevant ros packages: roscpp, rospy, std_msgs, image_transport, cv_bridge, sensor_msgs, geometry_msgs</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="overview-of-files-in-obj_detector-repository" class="anchor" href="#overview-of-files-in-obj_detector-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview of files in Obj_Detector Repository:</h3>
+
+<ul>
+<li>package.xml</li>
+<li>CMakeLists.txt</li>
+<li>example.bag</li>
+<li>launch/
+
+<ul>
+<li>cone_detector.launch</li>
+<li>...</li>
+</ul>
+</li>
+<li>
+<p>src/</p>
+
+<ul>
+<li>echo.py</li>
+<li>echo.cpp</li>
+<li>image_matching.py</li>
+<li>morphology_object_tracking.cpp</li>
+<li>contour.py</li>
+<li>blob.png</li>
+<li>image.png</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+
+<h4>
+<a id="examplebag" class="anchor" href="#examplebag" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>example.bag</h4>
+
+<p>A very tiny bag file that shows an orange cone.  you can test all of the code with this bag file and the .png images in the src directory.</p>
+
+<pre><code>rosbag play example.bag -a
+</code></pre>
+
+<p>Use <code>rostopic list</code> to see what topics are now published.</p>
+
+<h4>
+<a id="cmakelists" class="anchor" href="#cmakelists" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CMakeLists</h4>
+
+<p><code>CMakeLists.txt</code> finds and links the OpenCV libraries and ros packages.  If you create more .cpp files you need to declare a c++ executable and add dependencies to it. </p>
+
+<p>Add the bottom of CMakeLists.txt we added the following to make <code>echo</code>:</p>
+
+<pre><code>add_executable(echo src/echo.cpp)
+add_dependencies(echo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(echo ${OpenCV_LIBS} ${catkin_LIBRARIES}  )
+</code></pre>
+
+<h4>
+<a id="launchcone_detectorlaunch" class="anchor" href="#launchcone_detectorlaunch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Launch/cone_detector.launch</h4>
+
+<p>This package creates ros subscribers that subscribe to <code>~image_raw</code> to obtain images from a camera feed.  The launch file shows how to remap <code>~image_raw</code> to <code>/camera/rgb/image_rect_color</code>.  Modify this file to subscribe to a different image feed.</p>
+
+<hr>
+
+<h3>
+<a id="source-files-explanations" class="anchor" href="#source-files-explanations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Source Files Explanations</h3>
+
+<h4>
+<a id="echopy-and-echocpp--cv_bridge-examples" class="anchor" href="#echopy-and-echocpp--cv_bridge-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>echo.py and echo.cpp  (CV_BRIDGE Examples)</h4>
+
+<h5>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage:</h5>
+
+<pre><code>roslaunch cone_detector echo_py.launch 
+roslaunch cone_detector echo_cpp.launch 
+
+</code></pre>
+
+<p>Both echo programs subscribe to our image topic and publish the image they recieved.  Before publishing the image message they convert the message to opencv type using cv_bridge.</p>
+
+<p>In python:</p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-c">#convert sensor_msgs.msg/Image.msg  to opencv</span>
+<span class="pl-v">self</span>.bridge.imgmsg_to_cv2(image_msg)
+
+<span class="pl-c">#convert opencv image to sensor_msgs.msg/Image.msg:</span>
+<span class="pl-v">self</span>.bridge.cv2_to_imgmsg(image_cv, <span class="pl-s"><span class="pl-pds">"</span>bgr8<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>In cpp:</p>
+
+<pre><code>// convert sensor_msgs.msg/Image.msg to opencv Mat
+image = cv_bridge::toCvCopy(msg, "bgr8")-&gt;image;
+
+// convert Mat to sensor_mgs.msg/Image.msg
+ msg = cv_bridge::CvImage(
+            std_msgs::Header(), "bgr8", image).toImageMsg();
+
+</code></pre>
+
+<h5>
+<a id="visualization" class="anchor" href="#visualization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Visualization:</h5>
+
+<p>You can use rqt to visualize the echo image stream. </p>
+
+<pre><code>rqt_image_view
+</code></pre>
+
+<p>Select the topic <code>/echo_image</code> or <code>/echo/echo_image</code> for cpp and python, respectively.</p>
+
+<p><img src="https://github.com/arii/cone_detector/blob/gh-pages/echo.png?raw=true" alt=""></p>
+
+<hr>
+
+<h4>
+<a id="image_matchingpy-template-matching-example-in-python" class="anchor" href="#image_matchingpy-template-matching-example-in-python" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>image_matching.py (Template Matching Example in Python)</h4>
+
+<h5>
+<a id="usage-1" class="anchor" href="#usage-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage:</h5>
+
+<p>This program uses a template image and tries to find it inside the camera feed.
+To run this program, you must include the template image location:</p>
+
+<pre><code>roslaunch cone_detector cone_detector.launch image:=/home/ari/catkin_ws/src/cone/cone_detector/src/blob.png 
+</code></pre>
+
+<p>This program defines two classes: <code>ConeDetector</code> and <code>TemplateMatcher</code>.</p>
+
+<ul>
+<li><p>ConeDetector should look very similiar to Echo.py. It has an additional ros publisher for the <code>cone_ibvs</code> topic.  This publishes a signal from [-1,1] of the cones relative location and was used for the TA's solution of IBVS parking at a cone.</p></li>
+<li><p>TemplateMatcher uses OpenCV's <code>matchTemplate()</code> function to compare the template image to the raw image frame.   You can read about it more on their website here: <a href="http://docs.opencv.org/master/d4/dc6/tutorial_py_template_matching.html#gsc.tab=0">http://docs.opencv.org/master/d4/dc6/tutorial_py_template_matching.html#gsc.tab=0</a></p></li>
+</ul>
+
+<p>As you'll see many vision algorithms have different qualities.  Template matching is very susceptible to scale and rotation error.  An upright orange cone is symmetrical and will not have rotation error, however the scale will change as the robot moves toward and away the cone. We have implemented pyramid matching functionality that resizes the template image for comparison.</p>
+
+<h5>
+<a id="visualization-1" class="anchor" href="#visualization-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Visualization:</h5>
+
+<p>You can use rqt to visualize the detected cone.</p>
+
+<pre><code>rqt_image_view
+</code></pre>
+
+<p>Select the topic <code>/cone_detector/cone_detection</code>.</p>
+
+<h2>
+<a id="" class="anchor" href="#" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><img src="https://github.com/arii/cone_detector/blob/gh-pages/cone_detection.png?raw=true" alt="">
+</h2>
+
+<h4>
+<a id="morphology_object_trackingcpp--color-segementation-in-cpp" class="anchor" href="#morphology_object_trackingcpp--color-segementation-in-cpp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>morphology_object_tracking.cpp  (color segementation in cpp)</h4>
+
+<h5>
+<a id="usage-2" class="anchor" href="#usage-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage:</h5>
+
+<pre><code>roslaunch cone_detector morphology_object_tracking.launch 
+</code></pre>
+
+<p>This code was adapted from here: <a href="http://opencv-srf.blogspot.com/2010/09/object-detection-using-color-seperation.html">http://opencv-srf.blogspot.com/2010/09/object-detection-using-color-seperation.html</a> .</p>
+
+<p>This code will track the cone and update its location over time.  Three opencv windows are created: control, original, and thresholded image.  In control you can change the hue, value, and saturation thresholds we are using to detect the orange cone.  The original window will display the original image with a line tracing its location over time. Lastly, threshold should display a mostly black window with the orange cone in white. If you cannot see the cone you can modify the threshold values.</p>
+
+<h5>
+<a id="visualization-2" class="anchor" href="#visualization-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Visualization:</h5>
+
+<p>Running the code should automatically display three cv windows.
+<img src="https://github.com/arii/cone_detector/blob/gh-pages/morph_1.png?raw=true" alt="">
+<img src="https://github.com/arii/cone_detector/blob/gh-pages/morph_2.png?raw=true" alt=""></p>
+
+<h2>
+<a id="-1" class="anchor" href="#-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><img src="https://github.com/arii/cone_detector/blob/gh-pages/morph_3.png?raw=true" alt="">
+</h2>
+
+<h4>
+<a id="contourpy-contour-image-detection-in-python" class="anchor" href="#contourpy-contour-image-detection-in-python" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>contour.py (Contour image detection in python)</h4>
+
+<h5>
+<a id="usage-3" class="anchor" href="#usage-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage:</h5>
+
+<pre><code>python contour.py image.png
+</code></pre>
+
+<p>countour.py is a simple example that does not integrate with ROS.  It simply shows the opencv functionality for finding contours. It detects the contours in the image that are with in the color min and max thresholds:</p>
+
+<pre><code>COLOR_MIN = np.array([0, 80, 80],np.uint8)
+COLOR_MAX = np.array([22, 255, 255],np.uint8)
+</code></pre>
+
+<p>Note that the image was first converted into HSV colorspace. The color orange has a hue of around 0 - 22, which is why the thresholds was set this way.</p>
+
+<p>This program plots a box around the largest contour within our color specified thresholds.</p>
+
+<h5>
+<a id="visualization-3" class="anchor" href="#visualization-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Visualization:</h5>
+
+<p>Running the code should automatically display one cv window. 
+<img src="https://github.com/arii/cone_detector/blob/gh-pages/contour.png?raw=true" alt=""></p>
 
       <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/arii/obj_detector">Object Detector with OpenCV and ROS</a> is maintained by <a href="https://github.com/arii">arii</a>.</span>
+        <span class="site-footer-owner"><a href="https://github.com/arii/cone_detector">Object Detector with OpenCV and ROS</a> is maintained by <a href="https://github.com/arii">arii</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
